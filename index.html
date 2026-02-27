@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="codecraftApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft Academy | Professional Coding Bootcamp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-laptop-code"></i> Code
+                <span>Craft</span>
+            </div>
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#testimonials">Success Stories</a></li>
+                    <li><a href="#qr">QR Code</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Apply Now</a></li>
+                </ul>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="#" class="btn btn-outline" id="loginBtn">Login</a>
+                    <a href="#" class="btn btn-primary" id="registerBtn">Register</a>
+                </div>
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="user-name" id="userName">User</div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <ul>
+                            <li><a href="#"><i class="fas fa-user"></i> My Profile</a></li>
+                            <li><a href="#"><i class="fas fa-book"></i> My Courses</a></li>
+                            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="auth-modal">
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-header">
+                <h3>Welcome to CodeCraft</h3>
+                <p>Join our community of developers and transform your career</p>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" id="loginTab">Login</div>
+                <div class="tab" id="registerTab">Register</div>
+            </div>
+
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login to Account</button>
+                <div class="form-footer">
+                    <p>Forgot your password? <a href="#" id="forgotPassword">Reset it</a></p>
+                </div>
+            </form>
+
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email Address</label>
+                    <input type="email" id="regEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Confirm Password</label>
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <div class="form-footer">
+                    <p>By registering, you agree to our <a href="#">Terms & Conditions</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Transform Your Career <span>in 12 Weeks</span></h1>
+                <p class="subtitle">India's premier coding bootcamp for aspiring developers. Get job-ready with hands-on training, industry mentorship, and career support.</p>
+                <div class="cta-buttons">
+                    <a href="#programs" class="btn btn-primary">Explore Programs</a>
+                    <a href="#contact" class="btn btn-outline">Book Consultation</a>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2500+</div>
+                        <div class="stat-label">Graduates</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">94%</div>
+                        <div class="stat-label">Job Placement</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">₹12 LPA</div>
+                        <div class="stat-label">Avg. Salary</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Coding on laptop" class="hero-img">
+                <div class="floating-card">
+                    <div class="card-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h4>Next Cohort</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Starts: <strong>August 15, 2025</strong></p>
+                        <p>Duration: <strong>12 Weeks</strong></p>
+                        <p>Seats: <strong>7/25 Remaining</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="programs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our <span>Programs</span></h2>
+                <p>Intensive, industry-focused courses designed to make you job-ready</p>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-header">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Full Stack Development</h3>
+                    </div>
+                    <div class="program-body">
+                        <div class="program-duration">
+                            <div>12 Weeks</div>
+                            <div class="program-price">₹25,000</div>
+                        </div>
+                        <div class="highlights">
+                            <h4>Technologies Covered:</h4>
+                            <div class="tags">
+                                <span class="tag">HTML/CSS</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">React</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="program-footer">
+                        <a href="#contact" class="btn btn-primary btn-block">Apply Now</a>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile App Development</h3>
+                    </div>
+                    <div class="program-body">
+                        <div class="program-duration">
+                            <div>10 Weeks</div>
+                            <div class="program-price">₹40,000</div>
+                        </div>
+                        <div class="highlights">
+                            <h4>Technologies Covered:</h4>
+                            <div class="tags">
+                                <span class="tag">React Native</span>
+                                <span class="tag">iOS/Android</span>
+                                <span class="tag">Firebase</span>
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">Redux</span>
+                                <span class="tag">APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="program-footer">
+                        <a href="#contact" class="btn btn-primary btn-block">Apply Now</a>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Data Science</h3>
+                    </div>
+                    <div class="program-body">
+                        <div class="program-duration">
+                            <div>14 Weeks</div>
+                            <div class="program-price">₹50,000</div>
+                        </div>
+                        <div class="highlights">
+                            <h4>Technologies Covered:</h4>
+                            <div class="tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Pandas</span>
+                                <span class="tag">Machine Learning</span>
+                                <span class="tag">SQL</span>
+                                <span class="tag">Data Visualization</span>
+                                <span class="tag">TensorFlow</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="program-footer">
+                        <a href="#contact" class="btn btn-primary btn-block">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="resources-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Learning <span>Resources</span></h2>
+                <p>Access valuable tools and content to support your learning journey</p>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <i class="fas fa-blog"></i>
+                    <h3>Blog</h3>
+                    <p>Read our latest articles on coding best practices, industry trends, and career advice.</p>
+                    <a href="#" class="btn btn-outline">Explore Blog</a>
+                </div>
+
+                <div class="resource-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Learning Resources</h3>
+                    <p>Access our library of tutorials, cheat sheets, and reference materials to supplement your learning.</p>
+                    <a href="#" class="btn btn-outline">View Resources</a>
+                </div>
+
+                <div class="resource-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Career Services</h3>
+                    <p>Get personalized career coaching, resume reviews, and interview preparation support.</p>
+                    <a href="#" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Student <span>Success Stories</span></h2>
+                <p>Hear from our graduates who have transformed their careers</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>CodeCraft Academy completely changed my career trajectory. After just 12 weeks, I went from a non-technical background to landing a job as a Full Stack Developer at a leading tech company.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma">
+                        </div>
+                        <div class="author-info">
+                            <h4>Priya Sharma</h4>
+                            <p>Full Stack Developer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>The Data Science program exceeded my expectations. The curriculum was perfectly balanced between theory and practical application. I received three job offers before graduation.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Raj Patel">
+                        </div>
+                        <div class="author-info">
+                            <h4>Raj Patel</h4>
+                            <p>Data Scientist</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>As a UI/UX design student, I was impressed by the industry connections and real client projects we worked on. The portfolio I built during the program helped me land my dream job.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ananya Desai">
+                        </div>
+                        <div class="author-info">
+                            <h4>Ananya Desai</h4>
+                            <p>Senior UX Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QR Code Section -->
+    <section id="qr" class="qr-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Mobile <span>Access</span></h2>
+                <p>Generate a QR code to access our website on your mobile device</p>
+            </div>
+            <div class="qr-container">
+                <div class="qr-card">
+                    <h3>Website QR Code</h3>
+                    <div class="qr-display">
+                        <div id="qrcode"></div>
+                    </div>
+                    <p>Scan this QR code with your mobile device</p>
+
+                    <div class="qr-instructions">
+                        <h3>How to use:</h3>
+                        <ol>
+                            <li>Open the camera app on your smartphone</li>
+                            <li>Point your camera at the QR code</li>
+                            <li>Tap the notification that appears to open the website</li>
+                            <li>Bookmark the site for future access</li>
+                        </ol>
+                    </div>
+
+                    <a href="#" class="btn btn-primary" id="downloadBtn">Download HTML File</a>
+                    <a href="#" class="btn btn-outline" id="printBtn">Print QR Code</a>
+                </div>
+
+                <div class="qr-card">
+                    <h3>Why Use QR Codes?</h3>
+
+                    <div class="qr-features">
+                        <div class="qr-feature-card">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Mobile Access</h3>
+                            <p>Quickly access our website on any mobile device</p>
+                        </div>
+
+                        <div class="qr-feature-card">
+                            <i class="fas fa-share-alt"></i>
+                            <h3>Easy Sharing</h3>
+                            <p>Share our website easily with friends and colleagues</p>
+                        </div>
+
+                        <div class="qr-feature-card">
+                            <i class="fas fa-download"></i>
+                            <h3>Offline Access</h3>
+                            <p>Download our website for offline reference</p>
+                        </div>
+
+                        <div class="qr-feature-card">
+                            <i class="fas fa-qrcode"></i>
+                            <h3>Quick Access</h3>
+                            <p>Access our resources in seconds with a simple scan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section" ng-controller="ContactController">
+        <div class="container">
+            <div class="section-header">
+                <h2>Ready to <span>Get Started?</span></h2>
+                <p>Apply today or request more information about our programs</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h3>Send us a message</h3>
+                    <form name="contactForm" ng-submit="submitForm()" novalidate>
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" ng-model="formData.fullname" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" ng-model="formData.email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" ng-model="formData.phone" placeholder="Enter your phone number (10 digits)" ng-pattern="/^[0-9]{10}$/" required>
+                            <div ng-messages="contactForm.phone.$error" class="error-message" ng-if="contactForm.phone.$dirty">
+                                <div ng-message="pattern">Please enter a valid 10-digit phone number</div>
+                                <div ng-message="required">Phone number is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="program">Program of Interest</label>
+                            <select id="program" ng-model="formData.program" required>
+                                <option value="">Select a program</option>
+                                <option value="fullstack">Full Stack Development</option>
+                                <option value="mobile">Mobile App Development</option>
+                                <option value="data">Data Science</option>
+                                <option value="uiux">UI/UX Design</option>
+                                <option value="cyber">Cybersecurity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" ng-model="formData.message" placeholder="Tell us about your goals and questions"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary submit-btn" ng-disabled="contactForm.$invalid">Submit Application</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-text">
+                                <h4>Our Location</h4>
+                                <p>123 Tech Street, Bangalore<br>Karnataka 560001, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="contact-text">
+                                <h4>Phone Number</h4>
+                                <p>+91 80 1234 5678</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-text">
+                                <h4>Email Address</h4>
+                                <p>info@codecraft.in</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="contact-text">
+                                <h4>Working Hours</h4>
+                                <p>Monday - Friday: 9AM - 6PM<br>Saturday: 10AM - 4PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Code<span>Craft</span></h3>
+                    <p>Empowering the next generation of developers through intensive, practical education.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Programs</h4>
+                    <ul>
+                        <li><a href="#programs">Full Stack Development</a></li>
+                        <li><a href="#programs">Mobile App Development</a></li>
+                        <li><a href="#programs">Data Science</a></li>
+                        <li><a href="#programs">UI/UX Design</a></li>
+                        <li><a href="#programs">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#resources">Blog</a></li>
+                        <li><a href="#resources">Learning Resources</a></li>
+                        <li><a href="#resources">Career Services</a></li>
+                        <li><a href="#testimonials">Student Success Stories</a></li>
+                        <li><a href="#qr">QR Code Generator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#partnerships">Partnerships</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 CodeCraft Academy. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="angular-app.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
