@@ -1,0 +1,357 @@
+# Growth In Learning And Career Pathways 
+
+An AI-powered MERN stack platform that helps users explore personalized learning paths and career guidance — driven by Google Gemini AI.
+
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
+---
+
+##  Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [System Architecture](#system-architecture)
+- [How Gemini AI Is Used](#how-gemini-ai-is-used)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Screenshots](#screenshots)
+- [Future Improvements](#future-improvements)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+##  Overview
+
+**Growth In Learning And Career Pathways** is a full-stack web application built on the MERN stack that empowers students and professionals to discover curated learning roadmaps and career guidance. The platform integrates **Google Gemini AI** to generate intelligent, personalized answers and career advice based on user queries — making it a smart, interactive career companion.
+
+Users can explore skill-based learning paths, ask career-related questions, track their progress, and receive AI-generated guidance — all in one place.
+
+---
+
+##  Features
+
+- **AI-Powered Career Guidance** — Ask any career or learning question and get intelligent answers from Google Gemini
+- **Personalized Learning Pathways** — Browse curated roadmaps by domain (Web Dev, Data Science, AI/ML, etc.)
+- **User Authentication** — Secure signup/login with JWT-based auth
+- **Progress Tracking** — Save and track your learning milestones
+- **Chat Interface** — Conversational UI to interact with Gemini AI
+- **MongoDB Backend** — All user data, pathways, and history stored in MongoDB
+- **Responsive Design** — Fully mobile-friendly React frontend
+- **Search & Filter** — Find pathways by skill, domain, or experience level
+
+---
+
+##  Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| React.js | UI framework |
+| React Router DOM | Client-side routing |
+| Axios | HTTP requests to backend |
+| Tailwind CSS / CSS Modules | Styling |
+| Context API / Redux | State management |
+
+### Backend
+| Technology | Purpose |
+|---|---|
+| Node.js | Server runtime |
+| Express.js | REST API framework |
+| MongoDB | NoSQL database |
+| Mongoose | MongoDB ODM |
+| JWT | Authentication tokens |
+| bcryptjs | Password hashing |
+| dotenv | Environment variable management |
+
+### AI Integration
+| Technology | Purpose |
+|---|---|
+| Google Gemini API | AI-generated career and learning answers |
+| `@google/generative-ai` | Official Gemini Node.js SDK |
+
+---
+
+##  System Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│                     CLIENT                          │
+│              React.js Frontend                      │
+│   (Pages: Home, Pathways, AI Chat, Dashboard)       │
+└─────────────────────┬───────────────────────────────┘
+                      │ HTTP / Axios
+┌─────────────────────▼───────────────────────────────┐
+│                    SERVER                           │
+│             Node.js + Express.js                    │
+│                                                     │
+│   ┌──────────────┐     ┌───────────────────────┐    │
+│   │  Auth Routes │     │   Pathway Routes       │    │
+│   │  /api/auth   │     │   /api/pathways        │    │
+│   └──────────────┘     └───────────────────────┘    │
+│                                                     │
+│   ┌────────────────────────────────────────────┐    │
+│   │         AI Routes  /api/ai/ask             │    │
+│   │     Calls Google Gemini API                │    │
+│   └────────────────────────────────────────────┘    │
+└────────────────┬──────────────────┬─────────────────┘
+                 │                  │
+    ┌────────────▼──────┐  ┌────────▼────────────┐
+    │     MongoDB       │  │   Google Gemini API  │
+    │  (Users, Paths,   │  │  (AI Answer Engine)  │
+    │   Chat History)   │  └─────────────────────┘
+    └───────────────────┘
+```
+
+---
+
+##  How Gemini AI Is Used
+
+The backend sends user queries to the **Google Gemini API** (`gemini-pro` model) and streams the response back to the frontend.
+
+```js
+// server/controllers/aiController.js
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+exports.askGemini = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.status(200).json({ answer: text });
+  } catch (error) {
+    res.status(500).json({ message: "Gemini API error", error: error.message });
+  }
+};
+```
+
+**Use cases inside the app:**
+- "What skills do I need to become a Data Scientist?"
+- "Give me a 3-month roadmap to learn React"
+- "What are the highest-paying tech careers in India in 2025?"
+- "Compare a career in DevOps vs Backend Development"
+
+---
+
+##  Getting Started
+
+### Prerequisites
+
+- Node.js v18+
+- MongoDB (local or MongoDB Atlas)
+- Google Gemini API key → [Get it here](https://makersuite.google.com/app/apikey)
+
+---
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/your-username/growth-learning-career-pathways.git
+cd growth-learning-career-pathways
+```
+
+---
+
+### Step 2 — Setup the Backend
+
+```bash
+cd server
+npm install
+```
+
+Create a `.env` file inside the `server/` folder:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+GEMINI_API_KEY=your_google_gemini_api_key
+```
+
+Start the backend server:
+
+```bash
+npm run dev
+```
+
+---
+
+### Step 3 — Setup the Frontend
+
+```bash
+cd ../client
+npm install
+```
+
+Create a `.env` file inside the `client/` folder:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Start the React app:
+
+```bash
+npm start
+```
+
+---
+
+### Step 4 — Open in browser
+
+```
+Frontend → http://localhost:3000
+Backend  → http://localhost:5000
+```
+
+---
+
+##  Environment Variables
+
+### Server (`server/.env`)
+
+| Variable | Description |
+|---|---|
+| `PORT` | Port for the Express server (default: 5000) |
+| `MONGO_URI` | MongoDB connection string (local or Atlas) |
+| `JWT_SECRET` | Secret key for signing JWT tokens |
+| `GEMINI_API_KEY` | Google Gemini API key |
+
+### Client (`client/.env`)
+
+| Variable | Description |
+|---|---|
+| `REACT_APP_API_URL` | Backend base URL for Axios requests |
+
+---
+
+##  Project Structure
+
+```
+growth-learning-career-pathways/
+│
+├── client/                          # React frontend
+│   ├── public/
+│   └── src/
+│       ├── components/              # Reusable UI components
+│       ├── pages/                   # Route-level pages
+│       │   ├── Home.jsx
+│       │   ├── Pathways.jsx
+│       │   ├── AiChat.jsx
+│       │   └── Dashboard.jsx
+│       ├── context/                 # Auth context / global state
+│       ├── services/                # Axios API calls
+│       ├── App.js
+│       └── index.js
+│
+├── server/                          # Node.js + Express backend
+│   ├── controllers/
+│   │   ├── authController.js        # Register, login, JWT
+│   │   ├── pathwayController.js     # CRUD for learning pathways
+│   │   └── aiController.js         # Gemini API integration
+│   ├── models/
+│   │   ├── User.js                  # User schema
+│   │   ├── Pathway.js               # Learning pathway schema
+│   │   └── ChatHistory.js           # AI chat history schema
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── pathwayRoutes.js
+│   │   └── aiRoutes.js
+│   ├── middleware/
+│   │   └── authMiddleware.js        # JWT verification
+│   ├── config/
+│   │   └── db.js                    # MongoDB connection
+│   ├── .env
+│   └── server.js                    # Express app entry point
+│
+├── .gitignore
+└── README.md
+```
+
+---
+
+##  API Endpoints
+
+### Auth
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and receive JWT token |
+| GET | `/api/auth/me` | Get logged-in user profile |
+
+### Pathways
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/pathways` | Get all learning pathways |
+| GET | `/api/pathways/:id` | Get a single pathway by ID |
+| POST | `/api/pathways` | Create a new pathway (admin) |
+| PUT | `/api/pathways/:id` | Update a pathway |
+| DELETE | `/api/pathways/:id` | Delete a pathway |
+
+### AI (Gemini)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/ai/ask` | Send a prompt to Gemini and get answer |
+| GET | `/api/ai/history` | Get chat history for logged-in user |
+
+---
+
+## 🔮 Future Improvements
+
+- [ ] Gemini streaming responses (real-time token-by-token output)
+- [ ] Roadmap progress tracker with checkboxes
+- [ ] Bookmark and save favourite pathways
+- [ ] Admin dashboard to manage pathways
+- [ ] Email notifications for learning reminders
+- [ ] Community forum for peer discussions
+- [ ] Resume builder based on selected pathway
+- [ ] LinkedIn/GitHub OAuth login
+
+---
+
+##  Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add your feature"`
+4. Push to your branch: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+---
+
+##  License
+
+This project is licensed under the **MIT License** — free to use, modify, and distribute.
+
+---
+
+##  Acknowledgements
+
+- [Google Gemini AI](https://deepmind.google/technologies/gemini/) — for powering the AI career guidance engine
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) — for cloud database hosting
+- [React.js](https://react.dev/) — for the frontend framework
+- [Express.js](https://expressjs.com/) — for the backend API
+
+---
+
+> ⭐ If this project helped you, give it a star on GitHub — it keeps the motivation going!
