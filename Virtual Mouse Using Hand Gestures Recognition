@@ -1,0 +1,252 @@
+# Virtual Mouse Using Hand Gesture Recognition 
+
+Control your computer mouse entirely with hand gestures — no physical mouse needed. Built with Python, OpenCV, and MediaPipe.
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-Google-FF6F00?style=for-the-badge&logo=google&logoColor=white)
+![PyAutoGUI](https://img.shields.io/badge/PyAutoGUI-Automation-10b981?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
+---
+
+##  Table of Contents
+
+- [Overview](#overview)
+- [How It Works](#how-it-works)
+- [Gesture Controls](#gesture-controls)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [Future Improvements](#future-improvements)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+##  Overview
+
+Virtual Mouse is a computer vision project that uses your webcam to detect hand landmarks in real time and maps your finger movements to mouse actions. It eliminates the need for a physical mouse by interpreting specific hand gestures as mouse events — move, click, scroll, and drag.
+
+This project uses **MediaPipe Hands** for accurate 21-point hand landmark detection and **PyAutoGUI** to control the system mouse programmatically.
+
+---
+
+## ⚙️ How It Works
+
+```
+Webcam Frame
+     ↓
+MediaPipe Hand Landmark Detection (21 points)
+     ↓
+Finger State Analysis (up/down per finger)
+     ↓
+Gesture Classification
+     ↓
+PyAutoGUI Mouse Event (move / click / scroll / drag)
+```
+
+1. **Webcam capture** — OpenCV reads frames from your webcam in real time
+2. **Hand detection** — MediaPipe Hands detects and tracks 21 hand landmarks per frame
+3. **Finger state detection** — The system checks which fingers are raised or folded using landmark Y-coordinates
+4. **Gesture classification** — Finger combinations are mapped to specific mouse gestures
+5. **Mouse control** — PyAutoGUI translates the index fingertip position to screen coordinates and triggers mouse events
+
+---
+
+##  Gesture Controls
+
+| Fingers Up | Gesture | Mouse Action |
+|---|---|---|
+| Index only | Point | Move cursor |
+| Index + Middle | Peace / Neutral | Freeze cursor |
+| Thumb + Index close | Pinch | Left click |
+| Thumb + Middle close | Pinch alt | Right click |
+| Index + Middle (scroll zone) | Scroll | Scroll up/down |
+| All fingers down | Fist | Click and drag |
+| All fingers up | Open palm | Stop / idle |
+
+> Gesture mappings can be customized in `config.py`.
+
+---
+
+## Tech Stack
+
+| Library | Version | Purpose |
+|---|---|---|
+| Python | 3.8+ | Core language |
+| OpenCV (`cv2`) | 4.x | Webcam capture and frame processing |
+| MediaPipe | 0.10+ | Real-time hand landmark detection |
+| PyAutoGUI | 0.9.54 | System mouse and keyboard control |
+| NumPy | 1.x | Coordinate math and array operations |
+
+---
+
+##  Requirements
+
+- Python 3.8 or above
+- A working webcam (built-in or external)
+- OS: Windows / macOS / Linux
+
+---
+
+##  Installation
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/your-username/virtual-mouse-hand-gesture.git
+cd virtual-mouse-hand-gesture
+```
+
+### Step 2 — Create a virtual environment (recommended)
+
+```bash
+python -m venv venv
+
+# Activate on Windows
+venv\Scripts\activate
+
+# Activate on macOS/Linux
+source venv/bin/activate
+```
+
+### Step 3 — Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or install manually:
+
+```bash
+pip install opencv-python mediapipe pyautogui numpy
+```
+
+### Step 4 — Run the project
+
+```bash
+python main.py
+```
+
+---
+
+##  Usage
+
+1. Run `python main.py`
+2. A webcam window will open — position your hand clearly in front of the camera
+3. Use gestures from the table above to control the mouse
+4. Press `q` to quit the application
+
+**Tips for best results:**
+- Use in a well-lit environment
+- Keep your hand within the camera frame
+- Maintain a distance of 30–60 cm from the webcam
+- Use a plain or low-clutter background for better detection
+
+---
+
+##  Project Structure
+
+```
+virtual-mouse-hand-gesture/
+│
+├── main.py                  # Entry point — runs the main loop
+├── hand_detector.py         # MediaPipe hand landmark detection module
+├── gesture_controller.py    # Gesture classification logic
+├── mouse_controller.py      # PyAutoGUI mouse event handler
+├── config.py                # Configurable settings (sensitivity, gestures)
+├── requirements.txt         # Python dependencies
+└── README.md                # Project documentation
+```
+
+---
+
+## ⚙️ Configuration
+
+Edit `config.py` to tune the behavior:
+
+```python
+# Webcam settings
+CAMERA_INDEX = 0          # 0 = default webcam, 1 = external webcam
+
+# Screen resolution (auto-detected if left as None)
+SCREEN_WIDTH = None
+SCREEN_HEIGHT = None
+
+# Mouse sensitivity (higher = faster cursor movement)
+SMOOTHENING = 7
+
+# Frame region used for cursor mapping (reduces edge jitter)
+FRAME_REDUCTION = 100
+
+# Detection confidence thresholds
+MIN_DETECTION_CONFIDENCE = 0.8
+MIN_TRACKING_CONFIDENCE = 0.8
+
+# Click distance threshold (pixels between fingertips to trigger click)
+CLICK_THRESHOLD = 40
+```
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| Webcam not opening | Check `CAMERA_INDEX` in `config.py` — try `1` instead of `0` |
+| Hand not detected | Improve lighting; ensure your hand is fully visible |
+| Cursor moving too fast | Increase `SMOOTHENING` value in `config.py` |
+| Cursor moving too slow | Decrease `SMOOTHENING` value in `config.py` |
+| PyAutoGUI fails on macOS | Grant Accessibility permissions to Terminal in System Preferences |
+| MediaPipe import error | Re-install: `pip install mediapipe --upgrade` |
+| Laggy performance | Reduce webcam resolution in `main.py` via `cap.set(3, 640)` |
+
+---
+
+##  Future Improvements
+
+
+- [ ] Multi-hand support (two-hand gestures)
+- [ ] Custom gesture training with ML model
+- [ ] Volume and brightness control via gestures
+- [ ] GUI settings panel for sensitivity tuning
+- [ ] Virtual keyboard integration
+- [ ] Presentation slide control (next/previous)
+- [ ] Gesture recording and playback
+
+---
+
+##  Contributing
+
+Contributions are welcome and encouraged!
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add your feature"`
+4. Push to your branch: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+Please follow PEP 8 style guidelines and include comments where necessary.
+
+---
+
+##  License
+
+This project is licensed under the **MIT License** — free to use, modify, and distribute.
+
+---
+
+##  Acknowledgements
+
+- [MediaPipe by Google](https://mediapipe.dev/) — for real-time hand tracking
+- [OpenCV](https://opencv.org/) — for computer vision utilities
+- [PyAutoGUI](https://pyautogui.readthedocs.io/) — for cross-platform mouse control
+
+---
+
+> ⭐ If this project helped you, please give it a star on GitHub!
